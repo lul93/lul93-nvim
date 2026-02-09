@@ -1,0 +1,10 @@
+local lz = require("lz.n")
+local keymap = lz.keymap("nvim-tree.lua")
+-- local neotree = require("config.neo-tree")
+keymap.set("n", "<leader>te", function()
+	require("config.nvim-tree").toggle()
+end, { desc = "toggle explorer" })
+
+keymap.set("n", "<leader>ce", function()
+	require("config.nvim-tree").close()
+end, { desc = "close explorer" })
