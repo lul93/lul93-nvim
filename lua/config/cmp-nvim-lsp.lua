@@ -44,6 +44,22 @@ function M.setup()
 		capabilities = capabilities,
 	}
 
+	-- HTML
+	vim.lsp.config.html = {
+		capabilities = capabilities,
+		filetypes = { "html", "templ", "htmldjango" },
+	}
+
+	-- CSS
+	vim.lsp.config.cssls = {
+		capabilities = capabilities,
+		settings = {
+			css = { validate = true },
+			scss = { validate = true },
+			less = { validate = true },
+		},
+	}
+
 	-- enable servers
 	vim.lsp.enable({
 		"lua_ls",
@@ -52,6 +68,8 @@ function M.setup()
 		"bashls",
 		"clangd",
 		"mesonlsp",
+		"html",
+		"cssls",
 	})
 end
 
