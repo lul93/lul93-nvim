@@ -1,4 +1,6 @@
 local helper = require("helper")
+
+-- tabs
 vim.keymap.set("n", "<A-Tab>", function()
 	vim.cmd.BufferNext()
 end, { desc = "next tab" })
@@ -7,14 +9,39 @@ vim.keymap.set("n", "<A-S-Tab>", function()
 	vim.cmd.BufferPrevious()
 end, { desc = "prev tab" })
 
+--buffers
 vim.keymap.set("n", "<leader>nt", ":tabnew<CR>", { desc = "new tab" })
-
 vim.keymap.set("n", "<leader>nv", ":vnew<CR>", { desc = "new vertical split (new buffer)" })
 vim.keymap.set("n", "<leader>nh", ":new<CR>", { desc = "new horizontal split (new buffer)" })
 
--- cpp ·················································
+vim.keymap.set("n", "<leader>bv", function()
+	if not helper.is_editor_window() then
+		helper.goto_last_editor_window()
+		if not helper.is_editor_window() then
+			return
+		end
+	end
+	local buf = vim.api.nvim_get_current_buf()
+	vim.cmd("vsplit")
+	vim.api.nvim_win_set_buf(0, buf)
+end, { desc = "vertical split with current buffer" })
+
+vim.keymap.set("n", "<leader>bs", function()
+	if not helper.is_editor_window() then
+		helper.goto_last_editor_window()
+		if not helper.is_editor_window() then
+			return
+		end
+	end
+	local buf = vim.api.nvim_get_current_buf()
+	vim.cmd("split")
+	vim.api.nvim_win_set_buf(0, buf)
+end, { desc = "horizontal split with current buffer" })
+
+-- cpp
 vim.keymap.set("n", "<leader>sh", ":ClangdSwitchSourceHeader<CR>", { desc = "switch cpp source header" })
 
+-- line operations
 vim.keymap.set("n", "<leader>o", "o<Esc>", { silent = true, desc = "insert line above" })
 
 vim.keymap.set("n", "<leader>O", "O<Esc>", { silent = true, desc = "insert line below" })
@@ -44,30 +71,3 @@ vim.keymap.set("n", "<C-Space>", function()
 		end,
 	})
 end, { desc = "Auto-fix diagnostic under cursor" })
-
--- open buffer under cursor into split
----- vertical split current buffer
-vim.keymap.set("n", "<leader>bv", function()
-	if not helper.is_editor_window() then
-		helper.goto_last_editor_window()
-		if not helper.is_editor_window() then
-			return
-		end
-	end
-	local buf = vim.api.nvim_get_current_buf()
-	vim.cmd("vsplit")
-	vim.api.nvim_win_set_buf(0, buf)
-end)
-
--- horizontal split current buffer
-vim.keymap.set("n", "<leader>bs", function()
-	if not helper.is_editor_window() then
-		helper.goto_last_editor_window()
-		if not helper.is_editor_window() then
-			return
-		end
-	end
-	local buf = vim.api.nvim_get_current_buf()
-	vim.cmd("split")
-	vim.api.nvim_win_set_buf(0, buf)
-end)
