@@ -1,18 +1,9 @@
 local helper = require("helper")
 
--- tabs
-vim.keymap.set("n", "<A-Tab>", function()
-	vim.cmd.BufferNext()
-end, { desc = "next tab" })
-
-vim.keymap.set("n", "<A-S-Tab>", function()
-	vim.cmd.BufferPrevious()
-end, { desc = "prev tab" })
-
---buffers
-vim.keymap.set("n", "<leader>nt", ":tabnew<CR>", { desc = "new tab" })
-vim.keymap.set("n", "<leader>nv", ":vnew<CR>", { desc = "new vertical split (new buffer)" })
-vim.keymap.set("n", "<leader>nh", ":new<CR>", { desc = "new horizontal split (new buffer)" })
+-- splits
+vim.keymap.set("n", "<leader>nt", ":tabnew<CR>", { desc = "new tab buffer" })
+vim.keymap.set("n", "<leader>nv", ":vnew<CR>", { desc = "new vertical split buffer" })
+vim.keymap.set("n", "<leader>nh", ":new<CR>", { desc = "new horizontal split buffer" })
 
 vim.keymap.set("n", "<leader>bv", function()
 	if not helper.is_editor_window() then

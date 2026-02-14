@@ -15,6 +15,8 @@ function M.setup()
 		{ "<leader>p", group = "persistence" },
 		{ "<leader>g", group = "go" },
 		{ "<leader>b", group = "buffer" },
+		{ "<leader>bo", group = "order" },
+		{ "<leader>bm", group = "move" },
 		{ "<leader>d", "delete", mode = "x" },
 	})
 end
