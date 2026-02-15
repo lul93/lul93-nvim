@@ -17,7 +17,7 @@ vim.keymap.set("n", "<leader>bv", function()
 	vim.api.nvim_win_set_buf(0, buf)
 end, { desc = "vertical split with current buffer" })
 
-vim.keymap.set("n", "<leader>bs", function()
+vim.keymap.set("n", "<leader>bh", function()
 	if not helper.is_editor_window() then
 		helper.goto_last_editor_window()
 		if not helper.is_editor_window() then
@@ -40,12 +40,6 @@ vim.keymap.set("n", "<leader>O", "O<Esc>", { silent = true, desc = "insert line 
 vim.keymap.set("n", "<leader>do", 'j"_ddk', { silent = true, desc = "delete line below " })
 
 vim.keymap.set("n", "<leader>dO", 'k"_dd', { silent = true, desc = "delete line above" })
-
-vim.keymap.set("n", "S", function()
-	require("fzf-lua").live_grep({
-		prompt = "symbols> ",
-	})
-end, { desc = "project-wide live search" })
 
 -- diagnostic tip
 vim.api.nvim_create_autocmd("CursorHold", {
