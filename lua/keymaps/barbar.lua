@@ -68,7 +68,7 @@ keymap.set("n", "<leader>bc", "<Cmd>BufferClose<CR>", { noremap = true, silent =
 keymap.set(
 	"n",
 	"<leader>bC",
-	"<Cmd>BufferClose<CR>",
+	"<Cmd>BufferCloseAllButCurrent<CR>",
 	{ noremap = true, silent = true, desc = "close all other buffers" }
 )
 
