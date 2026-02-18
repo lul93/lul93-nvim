@@ -3,6 +3,15 @@ vim.schedule(function()
 	vim.api.nvim_exec_autocmds("User", { pattern = "PostStartup" })
 end)
 
+-- resize on os window resize
+local esplits = vim.api.nvim_create_augroup("EqualizeSplits", { clear = true })
+vim.api.nvim_create_autocmd("VimResized", {
+	group = esplits,
+	callback = function()
+		vim.cmd.wincmd("=")
+	end,
+})
+
 -- set title for terminal window
 vim.opt.title = true
 
