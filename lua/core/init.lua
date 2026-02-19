@@ -1,8 +1,16 @@
 -- emit a user event after startup
-vim.schedule(function()
-	vim.api.nvim_exec_autocmds("User", { pattern = "PostStartup" })
-end)
+-- vim.schedule(function()
+-- 	vim.api.nvim_exec_autocmds("User", { pattern = "PostStartup" })
+-- end)
 
+vim.api.nvim_create_autocmd("VimEnter", {
+	once = true,
+	callback = function()
+		vim.schedule(function()
+			vim.api.nvim_exec_autocmds("User", { pattern = "PostStartup" })
+		end)
+	end,
+})
 -- resize on os window resize
 local esplits = vim.api.nvim_create_augroup("EqualizeSplits", { clear = true })
 vim.api.nvim_create_autocmd("VimResized", {

@@ -15,7 +15,7 @@ with pkgs.vimPlugins; [
   # ui
   lualine-nvim
   nvim-web-devicons
-  modicator-nvim
+  # modicator-nvim
   twilight-nvim
   zen-mode-nvim
   dashboard-nvim
