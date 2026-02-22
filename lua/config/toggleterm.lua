@@ -1,21 +1,30 @@
 local M = {}
 local debug = false
+
+local function print_debug(...)
+	if debug then
+		print(table.concat(vim.tbl_map(tostring, { ... }), " "))
+	end
+end
 local function size()
-	return {
+	local s = {
 		h = 15,
 		v = math.floor(vim.o.columns * 0.4),
 	}
-end
-local function print_debug(msg)
-	if debug then
-		print(msg)
-	end
+	print_debug("size calculated: h=" .. s.h .. " v=" .. s.v)
+	return s
 end
 
+-- -----------------------------------------------------------
+-- Setup
+-- -----------------------------------------------------------
+
 function M.setup()
+	print_debug("setup called")
+
 	require("toggleterm").setup({
 		size = function(t)
-			print_debug("before on_open")
+			print_debug("size callback for direction: " .. tostring(t.direction))
 			if t.direction == "horizontal" then
 				return size().h
 			elseif t.direction == "vertical" then
@@ -23,169 +32,149 @@ function M.setup()
 			end
 		end,
 		on_open = function(t)
+			print_debug("terminal opened (count=" .. t.count .. ", dir=" .. t.direction .. ")")
 			t.tab = vim.api.nvim_win_get_tabpage(t.window)
-			print_debug("Set last_terminal")
 			require("state").last_terminal = t
+			print_debug("last_terminal updated to count=" .. t.count)
 		end,
 		on_close = function(t)
+			print_debug("terminal closed (count=" .. t.count .. ")")
 			t.tab = nil
 			require("helper").goto_last_editor_window()
 		end,
 		on_exit = function(t)
-			if require("state").last_terminal == t then
-				require("state").last_terminal = nil
+			print_debug("terminal exited (count=" .. t.count .. ")")
+			local state = require("state")
+			if state.last_terminal == t then
+				state.last_terminal = nil
+				print_debug("last_terminal cleared on exit")
 			end
 		end,
 	})
 end
 
-function M.toggle(n, direction)
+local function detect_context(helper)
+	local rules = {
+		{ name = "explorer", pred = helper.is_explorer },
+		{ name = "terminal", pred = helper.is_terminal },
+		{ name = "trouble", pred = helper.is_trouble },
+	}
+
+	for _, r in ipairs(rules) do
+		if r.pred() then
+			print_debug("context detected: " .. r.name)
+			return r.name
+		end
+	end
+
+	print_debug("context detected: editor")
+	return "editor"
+end
+
+function M.toggle(opts)
+	print_debug("toggle: called")
+
+	opts = opts or {}
 	local Trouble = require("trouble")
 	local Terminal = require("toggleterm.terminal").Terminal
 	local helper = require("helper")
+	local state = require("state")
 
-	--if diagnosics (Trouble) is open, toggle it
-	if Trouble.is_open() then
-		Trouble.close()
-	end
+	local ctx = detect_context(helper)
+	print_debug("context:", ctx)
 
-	--direction helper
-	local function get_size(dir)
-		if dir == "horizontal" then
-			return size().h
-		elseif dir == "vertical" then
-			return size().v
-		else
-			return nil
-		end
-	end
+	local slot = opts.slot or (state.last_terminal and state.last_terminal.count) or 1
 
-	local terminals = require("toggleterm.terminal").get_all()
-	local term = terminals[n]
+	print_debug("slot:", slot)
 
-	helper.set_last_editor_window()
+	local direction = opts.direction
+		or (state.last_terminal and state.last_terminal.count == slot and state.last_terminal.direction)
+		or "horizontal"
 
-	-- if we are in file explorer, we leave that window first back to prolly the window where we coded
-	if helper.is_explorer() then
-		helper.goto_prev_window()
-	end
+	print_debug("requested direction:", direction)
 
-	-- create terminal
-	if not term then
-		print_debug("creating new terminal!")
-		print_debug("available terminals:")
-		print_debug(vim.inspect(terminals))
-		term = Terminal:new({
-			count = n,
+	local t = state.terminals[slot]
+
+	if not t then
+		print_debug("creating terminal", slot, direction)
+
+		t = Terminal:new({
+			count = slot,
 			direction = direction,
 			hidden = true,
-			size = get_size(direction),
 		})
-		term:open() -- this triggers on_create
-		return
-	end
 
-	-- update direction
-	if term.direction ~= direction then
-		term:close()
-		term.direction = direction
-		term:open()
-		return
-	end
-
-	local is_float = term.direction == "float"
-	local is_tab = term.direction == "tab"
-	local is_other = term.direction == "horizontal" or term.direction == "vertical"
-
-	if is_float then
-		if term:is_open() then
-			term:close()
-		else
-			term:open()
-			print_debug("tt startinsert floating")
-			helper.start_insert()
-		end
-	elseif is_tab then
-		local isSameTab = term.tab
-			and vim.api.nvim_tabpage_is_valid(term.tab)
-			and term.tab == vim.api.nvim_get_current_tabpage()
-		if term:is_open() then
-			if isSameTab then
-				term:close()
-			end
-		else
-			term:open()
-			print_debug("tt startinsert tab")
-			helper.start_insert()
-		end
-	elseif is_other then
-		local is_focused = vim.api.nvim_get_current_win() == term.window
-		if not term:is_open() then
-			print_debug("not open")
-			term:open()
-			print_debug("tt startinsert other")
-			helper.start_insert()
-		elseif is_focused then
-			print_debug("focused")
-			helper.goto_last_editor_window()
-		elseif not is_focused then
-			print_debug("not focused")
-			vim.api.nvim_set_current_tabpage(vim.api.nvim_win_get_tabpage(term.window))
-			vim.api.nvim_set_current_win(term.window)
-			print_debug("tt startinsert focused")
-			helper.start_insert()
-		end
-	end
-end
-
-function M.fast_terminal()
-	local helper = require("helper")
-	local state = require("state")
-	local last_terminal = state.last_terminal
-	print_debug(last_terminal)
-	local Trouble = require("trouble")
-	if helper.is_explorer() then
-		print_debug("triggering tt from explorer")
-		helper.goto_last_terminal()
-		return
-	elseif helper.is_terminal() then
-		print_debug("triggering tt from terminal")
-		if last_terminal and (last_terminal.direction == "vertical" or last_terminal.direction == "horizontal") then
-			print_debug("changing focus from terminal to editor window")
-			helper.goto_last_editor_window()
-			return
-		elseif last_terminal then
-			print_debug("closing floating terminal")
-			last_terminal:close()
-			return
-		end
-	elseif helper.is_trouble() then
-		print_debug("triggering tt from trouble")
-		Trouble.close()
-		helper.goto_last_terminal()
-		return
+		state.terminals[slot] = t
 	else
-		print_debug("triggering tt from editor window")
-		if last_terminal then
-			print_debug("last terminal is set")
-			if Trouble.is_open() then
-				Trouble.close()
-			end
-			helper.goto_last_terminal()
-			return
+		print_debug("reusing terminal", slot, "current direction:", t.direction, "is_open:", t:is_open())
+	end
+
+	if direction ~= t.direction and t:is_open() then
+		print_debug("direction change", t.direction, "->", direction)
+
+		t:close()
+		print_debug("terminal closed")
+
+		t.direction = direction
+
+		t:open()
+		print_debug("terminal reopened with new direction")
+
+		return
+	end
+
+	local handlers = {}
+
+	handlers.editor = function()
+		print_debug("handler: editor → open")
+		if t:is_open() then
+			t:focus()
 		else
-			print_debug("we go to terminal 1 because no last terminal is set")
-			M.toggle(1, "horizontal")
-			return
+			t:open()
 		end
 	end
-	print_debug("reached end of tt without triggering anything!")
-end
 
+	handlers.terminal = function()
+		print_debug("handler: terminal", t.direction)
+
+		if state.last_terminal and state.last_terminal.count ~= slot then
+			print_debug("open terminal")
+			t:open()
+			return
+		end
+
+		if t.direction == "float" or t.direction == "tab" then
+			print_debug("closing terminal")
+			t:close()
+		else
+			print_debug("jumping to editor window")
+			helper.goto_last_editor_window()
+		end
+	end
+
+	handlers.explorer = function()
+		print_debug("handler: explorer → open")
+		t:open()
+	end
+
+	handlers.trouble = function()
+		print_debug("handler: trouble → close trouble + open terminal")
+		Trouble.close()
+		t:open()
+	end
+
+	local h = handlers[ctx] or handlers.editor
+	print_debug("dispatch handler:", ctx or "editor")
+
+	return h()
+end
 function M.close_all()
-	local terminals = require("toggleterm.terminal").get_all()
-	for _, term in pairs(terminals) do
+	print_debug("close_all called")
+
+	local state = require("state")
+	for slot, term in pairs(state.terminals) do
 		if term:is_open() then
+			print_debug("closing terminal slot=" .. slot)
 			term:close()
 		end
 	end
