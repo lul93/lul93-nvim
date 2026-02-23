@@ -6,8 +6,6 @@ return {
 		require("keymaps.nvim-tree")
 	end,
 	after = function()
-		vim.schedule(function()
-			require("nvim-tree").setup()
-		end)
+		require("nvim-tree").setup()
 	end,
 }

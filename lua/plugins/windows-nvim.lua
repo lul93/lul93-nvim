@@ -1,11 +1,13 @@
 return {
 	"windows.nvim",
-	event = "VimEnter",
-	after = {
+	-- lazy = false,
+	event = "User SessionLayoutReady",
+	after = function()
 		require("windows").setup({
 			autowidth = {
-				winwidth = 15,
+				enable = true,
+				winwidth = 1,
 			},
-		}),
-	},
+		})
+	end,
 }

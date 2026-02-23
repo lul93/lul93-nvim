@@ -36,8 +36,13 @@ function M.setup()
 				vim.cmd("silent! NvimTreeOpen")
 			end
 
-			-- open nvim-tree if it was open
-			-- reopen terminals ?
+			vim.schedule(function()
+				vim.defer_fn(function()
+					vim.api.nvim_exec_autocmds("User", {
+						pattern = "SessionLayoutReady",
+					})
+				end, 50)
+			end)
 		end,
 	})
 end
