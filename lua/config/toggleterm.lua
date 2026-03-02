@@ -1,5 +1,5 @@
 local M = {}
-local debug = false
+local debug = true
 
 local function print_debug(...)
 	if debug then
@@ -18,11 +18,13 @@ end
 -- -----------------------------------------------------------
 -- Setup
 -- -----------------------------------------------------------
-
 function M.setup()
 	print_debug("setup called")
 
 	require("toggleterm").setup({
+		persist_mode = false,
+		start_in_insert = false,
+		close_on_exit = false,
 		size = function(t)
 			print_debug("size callback for direction: " .. tostring(t.direction))
 			if t.direction == "horizontal" then
@@ -136,7 +138,6 @@ function M.toggle(opts)
 
 	handlers.terminal = function()
 		print_debug("handler: terminal", t.direction)
-
 		if state.last_terminal and state.last_terminal.count ~= slot then
 			print_debug("open terminal")
 			t:open()
@@ -168,6 +169,7 @@ function M.toggle(opts)
 
 	return h()
 end
+
 function M.close_all()
 	print_debug("close_all called")
 

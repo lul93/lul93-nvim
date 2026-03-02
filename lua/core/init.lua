@@ -1,8 +1,29 @@
--- emit a user event after startup
--- vim.schedule(function()
--- 	vim.api.nvim_exec_autocmds("User", { pattern = "PostStartup" })
--- end)
+-- insert when we enter a terminal
+vim.api.nvim_create_autocmd("BufEnter", {
+	callback = function(args)
+		if vim.bo[args.buf].buftype ~= "terminal" then
+			return
+		end
 
+		vim.schedule(function()
+			if vim.api.nvim_get_current_buf() == args.buf then
+				vim.cmd("startinsert")
+			end
+		end)
+	end,
+})
+
+vim.api.nvim_create_autocmd("TermOpen", {
+	callback = function(args)
+		vim.defer_fn(function()
+			if vim.bo[args.buf].buftype == "terminal" then
+				vim.cmd("startinsert")
+			end
+		end, 10)
+	end,
+})
+
+-- emit a custom event after startup for lazy loading stuff
 vim.api.nvim_create_autocmd("VimEnter", {
 	once = true,
 	callback = function()
@@ -20,7 +41,7 @@ vim.api.nvim_create_autocmd("VimResized", {
 	end,
 })
 
--- set title for terminal window
+-- set title for kitty window
 vim.opt.title = true
 
 local function short_cwd()

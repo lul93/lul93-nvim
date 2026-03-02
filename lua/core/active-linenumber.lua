@@ -137,10 +137,17 @@ function M.setup()
 
 		merge_winhighlight(cur, "LineNr:ActiveLineNr,CursorLineNr:ActiveCursorLineNr")
 	end
-	----------------------------------------------------------------
+	--------------------------------------------------------------
 	-- autocommands
-	----------------------------------------------------------------
-	api.nvim_create_autocmd({ "ModeChanged", "WinEnter", "WinLeave", "VimEnter", "ColorScheme" }, { callback = apply })
+	--------------------------------------------------------------
+	api.nvim_create_autocmd({ "ModeChanged", "WinEnter", "WinLeave", "VimEnter", "ColorScheme" }, {
+		callback = function()
+			if vim.bo.buftype == "terminal" then
+				return
+			end
+			apply()
+		end,
+	})
 end
 
 return M

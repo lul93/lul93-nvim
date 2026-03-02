@@ -33,8 +33,6 @@ function M.goto_last_terminal()
 
 		vim.api.nvim_set_current_tabpage(last_terminal.tab)
 		vim.api.nvim_set_current_win(last_terminal.window)
-		print_debug("goto last terminal startinsert")
-		M.start_insert()
 	end
 end
 
@@ -60,7 +58,7 @@ end
 
 function M.start_insert()
 	vim.schedule(function()
-		vim.cmd("startinsert!")
+		vim.cmd("startinsert")
 	end)
 end
 
