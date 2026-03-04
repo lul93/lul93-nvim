@@ -56,3 +56,6 @@ vim.keymap.set("n", "<C-Space>", function()
 		end,
 	})
 end, { desc = "Auto-fix diagnostic under cursor" })
+
+-- muscle memory paste / use <C-r>" instead ?
+vim.keymap.set("i", "<C-v>", "<C-r>+")
