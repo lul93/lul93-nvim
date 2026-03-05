@@ -32,14 +32,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
 		end)
 	end,
 })
--- resize on os window resize
-local esplits = vim.api.nvim_create_augroup("EqualizeSplits", { clear = true })
-vim.api.nvim_create_autocmd("VimResized", {
-	group = esplits,
-	callback = function()
-		vim.cmd.wincmd("=")
-	end,
-})
 
 -- set title for kitty window
 vim.opt.title = true

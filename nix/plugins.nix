@@ -7,6 +7,7 @@ with pkgs.vimPlugins; [
   plenary-nvim
   neodev-nvim
   vim-startuptime
+  bufresize-nvim
 
   # colorscheme
   catppuccin-nvim
