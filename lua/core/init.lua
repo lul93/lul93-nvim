@@ -110,6 +110,11 @@ vim.api.nvim_set_hl(0, "BufferVisible", {
 	fg = "#bbc2cf",
 	bg = "#23272e",
 })
+
+-- change comment color
+vim.api.nvim_set_hl(0, "Comment", { fg = "#A6ACB9", italic = false })
+vim.api.nvim_set_hl(0, "@comment", { fg = "#A6ACB9", italic = false })
+
 -- options ············································
 vim.opt.clipboard = "unnamedplus" -- share system clipboard with nvim
 vim.g.mapleader = " "
