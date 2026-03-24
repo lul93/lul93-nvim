@@ -13,9 +13,12 @@ in {
   # directory instead of copying it into the Nix store. Convenient for active
   # development, but not strictly reproducible.
 
+  # xdg.configFile."nvim".source =
+  #   config.lib.file.mkOutOfStoreSymlink
+  #   topology.homeModules.nvim.path;
+
   xdg.configFile."nvim".source =
-    config.lib.file.mkOutOfStoreSymlink
-    topology.programs.nvim.path;
+    config.lib.file.mkOutOfStoreSymlink /home/d4t4/nixos/modules/home/nvim;
 
   programs.neovim = {
     enable = true;
