@@ -1,7 +1,7 @@
 return {
 	"nvim-treesitter",
-	event = { "BufReadPost", "BufNewFile" },
+	lazy = false,
 	after = function()
-		require("config.nvim-treesitter")
+		require("config.nvim-treesitter").setup()
 	end,
 }
