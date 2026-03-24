@@ -2,7 +2,6 @@ local M = {}
 
 function M.setup()
 	local wk = require("which-key")
-	print("wk loaded!")
 	wk.add({
 		{ "<leader>n", group = "new" },
 		{ "<leader>d", group = "delete" },
