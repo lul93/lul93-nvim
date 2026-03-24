@@ -86,7 +86,6 @@ end
 -- main
 ----------------------------------------------------------------
 function M.setup()
-	print("LINENR")
 	local function clear(win)
 		local current = api.nvim_get_option_value("winhighlight", { win = win })
 		if current == "" then
