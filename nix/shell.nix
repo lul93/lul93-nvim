@@ -1,11 +1,11 @@
 {
-  pkgs ?
-    import (fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz";
-    }) {},
-}: let
-  plugins = import ./plugins.nix {inherit pkgs;};
-  packages = import ./packages.nix {inherit pkgs;};
+  pkgs ? import (fetchTarball {
+    url = "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz";
+  }) { },
+}:
+let
+  plugins = import ./plugins.nix { inherit pkgs; };
+  packages = import ./packages.nix { inherit pkgs; };
   nvim = pkgs.wrapNeovim pkgs.neovim-unwrapped {
     configure = {
       customRC = ''
@@ -15,6 +15,6 @@
     };
   };
 in
-  pkgs.mkShell {
-    packages = [nvim] ++ packages;
-  }
+pkgs.mkShell {
+  packages = [ nvim ] ++ packages;
+}
