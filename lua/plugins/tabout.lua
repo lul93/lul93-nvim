@@ -7,7 +7,7 @@ return {
 	end,
 	after = function()
 		vim.schedule(function()
-			require("tabout").setup()
+			require("config.tabout").setup()
 		end)
 	end,
 }
