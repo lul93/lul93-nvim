@@ -4,8 +4,8 @@ function M.setup()
 	require("conform").setup({
 		formatters_by_ft = {
 			lua = { "stylua" },
-			nix = { "alejandra" }, -- or "nixfmt"
-			python = { "black" },
+			nix = { "nixfmt" },
+			python = { "ruff_format" },
 			javascript = { "prettier" },
 			typescript = { "prettier" },
 			javascriptreact = { "prettier" },
@@ -16,6 +16,7 @@ function M.setup()
 			sh = { "shfmt" },
 			go = { "gofmt" },
 		},
+		lsp_fallback = true,
 
 		format_on_save = {
 			timeout_ms = 2000,
