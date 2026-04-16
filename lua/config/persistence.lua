@@ -6,6 +6,12 @@ function M.setup()
 		pre_save = function()
 			vim.api.nvim_exec_autocmds("User", { pattern = "SessionSavePre" })
 		end,
+		need = 1,
+	})
+	vim.api.nvim_create_autocmd("VimLeavePre", {
+		callback = function()
+			require("persistence").save()
+		end,
 	})
 
 	local helper = require("helper")
