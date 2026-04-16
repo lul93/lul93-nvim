@@ -9,6 +9,6 @@ return {
 		"i",
 	},
 	after = function()
-		require("config.nvim-treesitter-textobjects")
+		require("config.nvim-treesitter-textobjects").setup()
 	end,
 }
