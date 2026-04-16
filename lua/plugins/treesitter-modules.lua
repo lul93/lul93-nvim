@@ -9,6 +9,6 @@ return {
 		"<S-Tab>",
 	},
 	after = function()
-		require("config.treesitter-modules")
+		require("config.treesitter-modules").setup()
 	end,
 }
