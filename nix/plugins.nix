@@ -19,6 +19,7 @@ with pkgs.vimPlugins; [
   twilight-nvim
   zen-mode-nvim
   dashboard-nvim
+  hlchunk-nvim
 
   # editing
   which-key-nvim
