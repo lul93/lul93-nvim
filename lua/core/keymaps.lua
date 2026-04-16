@@ -57,5 +57,26 @@ vim.keymap.set("n", "<C-Space>", function()
 	})
 end, { desc = "Auto-fix diagnostic under cursor" })
 
--- muscle memory paste / use <C-r>" instead ?
-vim.keymap.set("i", "<C-v>", "<C-r>+")
+-- bS: backup to register u, then replace with +
+vim.keymap.set("n", "<leader>bs", function()
+	local buf_lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+	vim.fn.setreg("u", buf_lines, "l")
+
+	local lines = vim.fn.getreg("+", 1, true)
+	vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+end, { desc = "Backup to u, replace buffer from +" })
+
+-- bu: restore buffer from register u
+vim.keymap.set("n", "<leader>bS", function()
+	local lines = vim.fn.getreg("u", 1, true)
+	if not lines or #lines == 0 then
+		return
+	end
+	vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+end, { desc = "Restore buffer from u" })
+
+-- by: copy whole buffer to + (system clipboard)
+vim.keymap.set("n", "<leader>by", function()
+	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+	vim.fn.setreg("+", lines, "l")
+end, { desc = "Copy buffer to +" })
