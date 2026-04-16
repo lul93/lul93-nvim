@@ -1,5 +1,8 @@
+local enable = true
+
 return {
 	"copilot.lua",
+	enabled = enable,
 	beforeAll = function()
 		-- require("keymaps.copilot")
 	end,

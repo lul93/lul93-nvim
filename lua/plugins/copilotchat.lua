@@ -1,5 +1,7 @@
+local enable = true
 return {
 	"CopilotChat.nvim",
+	enabled = enable,
 	beforeAll = function()
 		require("keymaps.copilotchat")
 	end,

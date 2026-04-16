@@ -1,5 +1,8 @@
+local enable = true
+
 return {
 	"snacks.nvim",
+	enabled = enable,
 	lazy = false,
 	after = function()
 		require("snacks").setup({

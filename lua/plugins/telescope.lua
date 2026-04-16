@@ -1,5 +1,8 @@
+local enable = true
+
 return {
 	"telescope.nvim",
+	enabled = enable,
 	event = "VimEnter",
 	beforeAll = function()
 		require("keymaps.telescope")

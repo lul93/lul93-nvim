@@ -51,9 +51,6 @@ return {
 	enabled = enable,
 	event = { "User PostStartup" },
 	after = function()
-		if not enable then
-			return
-		end
 		setup()
 	end,
 }

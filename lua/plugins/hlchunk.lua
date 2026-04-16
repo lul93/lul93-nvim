@@ -1,3 +1,5 @@
+local enable = true
+
 local function setup()
 	local c = require("core.colors.palette")
 
@@ -26,6 +28,7 @@ end
 
 return {
 	"hlchunk.nvim",
+	enabled = enable,
 	event = { "BufReadPre", "BufNewFile" },
 	after = setup,
 }

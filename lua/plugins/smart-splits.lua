@@ -1,5 +1,8 @@
+local enable = true
+
 return {
 	"smart-splits.nvim",
+	enabled = enable,
 	beforeAll = function()
 		require("keymaps.smart-splits")
 	end,
@@ -21,6 +24,6 @@ return {
 	},
 
 	after = function()
-		require("config.smart-splits").setup()
+		require("smart-splits").setup()
 	end,
 }

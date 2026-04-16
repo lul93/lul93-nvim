@@ -1,5 +1,8 @@
+local enable = true
+
 return {
 	"hop.nvim",
+	enabled = enable,
 	beforeAll = function()
 		require("keymaps.hop")
 	end,
@@ -10,6 +13,6 @@ return {
 		"T",
 	},
 	after = function()
-		require("config.hop").setup()
+		require("hop").setup()
 	end,
 }

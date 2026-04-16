@@ -1,5 +1,8 @@
+local enable = true
+
 return {
 	"comment.nvim",
+	enabled = enable,
 	beforeAll = function()
 		require("keymaps.comment")
 	end,
