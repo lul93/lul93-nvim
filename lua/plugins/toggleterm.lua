@@ -12,7 +12,6 @@ return {
 	},
 
 	after = function()
-		vim.print("toggleterm after")
 		require("config.toggleterm").setup()
 	end,
 }
