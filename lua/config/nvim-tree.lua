@@ -5,7 +5,42 @@ function M.setup()
 	vim.g.loaded_netrwPlugin = 1
 	vim.g.nvim_tree_respect_buf_cwd = 1
 	vim.g.nvim_tree_follow = 1
+	local function search_replace_on_node()
+		local api = require("nvim-tree.api")
+		local node = api.tree.get_node_under_cursor()
 
+		if not node or not node.absolute_path then
+			vim.notify("no node")
+			return
+		end
+
+		local path = vim.fn.fnameescape(node.absolute_path)
+
+		local target
+		if node.type == "directory" then
+			target = path .. "/**/*"
+		else
+			target = path
+		end
+
+		local search = vim.fn.input("search: ")
+		if search == "" then
+			return
+		end
+
+		local replace = vim.fn.input("replace: ")
+
+		-- use # as delimiter to avoid slash conflicts
+		local esc_search = vim.fn.escape(search, [[#\]])
+		local esc_replace = vim.fn.escape(replace, [[#\&]])
+
+		vim.cmd("silent! vimgrep #" .. esc_search .. "#gj " .. target)
+		vim.cmd("cfdo %s#" .. esc_search .. "#" .. esc_replace .. "#g | update")
+
+		vim.notify("done")
+	end
+
+	print("nvim tree loading inside setup")
 	require("nvim-tree").setup({
 		hijack_netrw = true,
 		hijack_cursor = true,
@@ -36,8 +71,13 @@ function M.setup()
 		},
 
 		view = {
-			-- preserve_window_proportions = true,
+			preserve_window_proportions = true,
 			number = true,
+			adaptive_size = true,
+			width = {
+				min = 20,
+				max = 90,
+			},
 		},
 
 		diagnostics = {
@@ -53,6 +93,18 @@ function M.setup()
 		},
 
 		reload_on_bufenter = true,
+
+		on_attach = function(bufnr)
+			local api = require("nvim-tree.api")
+
+			api.map.on_attach.default(bufnr)
+
+			vim.keymap.set("n", "sr", search_replace_on_node, {
+				buffer = bufnr,
+				noremap = true,
+				silent = true,
+			})
+		end,
 	})
 end
 
