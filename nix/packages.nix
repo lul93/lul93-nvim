@@ -13,6 +13,7 @@ with pkgs;
   # nix
   alejandra
   nil
+  nixfmt
 
   # lua
   stylua
