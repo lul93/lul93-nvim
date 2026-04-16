@@ -26,3 +26,11 @@ end, { desc = "Copilot Chat: Back to editor" })
 keymap.set("n", "<leader>cn", function()
 	chat.open_new()
 end, { desc = "Copilot Chat: New chat" })
+
+keymap.set({ "n", "v" }, "<leader>ca", function()
+	require("config.copilotchat").ask_with_context()
+end, { desc = "Copilot Chat: Ask with context" })
+
+vim.keymap.set("n", "<leader>cs", function()
+	require("CopilotChat").stop()
+end, { desc = "Copilot Chat: Stop" })

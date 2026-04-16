@@ -63,14 +63,19 @@ with pkgs.vimPlugins;
   friendly-snippets
 
   # treesitter
-  nvim-treesitter
   nvim-treesitter.withAllGrammars
   nvim-treesitter-textobjects
-  nvim-treesitter-parsers.meson
   treesitter-modules-nvim
 
   # telescope
   telescope-nvim
   telescope-ui-select-nvim
   telescope-file-browser-nvim
+
+  # ai
+  CopilotChat-nvim
+  copilot-lua
+  copilot-cmp
+  copilot-lsp
+
 ]

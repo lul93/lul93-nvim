@@ -1,5 +1,15 @@
 local M = {}
 
+-- prevent garbage suggestions on empty line
+local has_words_before = function()
+	local _, col = table.unpack(vim.api.nvim_win_get_cursor(0))
+	if col == 0 then
+		return false
+	end
+	local text = vim.api.nvim_get_current_line()
+	return text:sub(1, col):match("%S") ~= nil
+end
+
 function M.setup()
 	local cmp = require("cmp")
 	local luasnip = require("luasnip")
@@ -12,12 +22,27 @@ function M.setup()
 			end,
 		},
 		sources = {
+			{ name = "copilot", group_index = 2 },
 			{ name = "nvim_lsp" },
 			{ name = "nvim_lsp_signature_help" },
 			{ name = "luasnip" },
 			{ name = "path" },
 			{ name = "buffer" },
 			{ name = "neocmake" },
+		},
+		sorting = {
+			priority_weight = 2,
+			comparators = {
+				require("cmp.config.compare").exact,
+				require("copilot_cmp.comparators").prioritize,
+				require("cmp.config.compare").score,
+				require("cmp.config.compare").recently_used,
+				require("cmp.config.compare").locality,
+				require("cmp.config.compare").kind,
+				require("cmp.config.compare").sort_text,
+				require("cmp.config.compare").length,
+				require("cmp.config.compare").order,
+			},
 		},
 		mapping = {
 
@@ -48,15 +73,11 @@ function M.setup()
 			end, { "i", "s" }),
 
 			["<Tab>"] = cmp.mapping(function(fallback)
-				if cmp.visible() then
+				if cmp.visible() and has_words_before() then
 					cmp.select_next_item()
-				elseif luasnip.locally_jumpable(1) then
-					luasnip.jump(1)
-					print("locallyjumpable")
-				elseif luasnip.jumpable(1) then
-					print("jumpable")
+				elseif luasnip.expand_or_jumpable() then
+					luasnip.expand_or_jump()
 				else
-					print("fallback")
 					fallback()
 				end
 			end, { "i", "s" }),
@@ -64,11 +85,8 @@ function M.setup()
 			["<S-Tab>"] = cmp.mapping(function(fallback)
 				if cmp.visible() then
 					cmp.select_prev_item()
-				elseif luasnip.locally_jumpable(-1) then
-					luasnip.jump(-1)
-					print("locallyjumpable")
 				elseif luasnip.jumpable(-1) then
-					print("jumpable")
+					luasnip.jump(-1)
 				else
 					fallback()
 				end
