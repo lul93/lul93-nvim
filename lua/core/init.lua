@@ -1,3 +1,10 @@
+-- use fish if possible
+if vim.fn.executable("fish") == 1 then
+	vim.o.shell = "fish"
+else
+	vim.o.shell = "bash"
+end
+
 -- load our colors
 require("core.colors.highlights").setup()
 require("core.colors.mode_highlight").setup()
