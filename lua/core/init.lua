@@ -1,3 +1,5 @@
+require("core.options")
+
 -- use fish if possible
 if vim.fn.executable("fish") == 1 then
 	vim.o.shell = "fish"
@@ -85,24 +87,3 @@ vim.api.nvim_create_autocmd("DirChanged", {
 _G.short_cwd = short_cwd
 -- overwrite start screen
 vim.opt.shortmess:append({ I = true })
-
-vim.o.termguicolors = true -- enables 23 bit color
-
--- options ············································
-vim.o.autoindent = true
-vim.o.smartindent = true
-vim.opt.clipboard = "unnamedplus" -- share system clipboard with nvim
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-vim.o.number = true -- show absolute line number
-vim.o.relativenumber = true -- show relative line numbers
-vim.o.signcolumn = "yes"
-vim.o.timeoutlen = 499 -- how long nvim waits for a mapped key sequence to complete
-vim.o.updatetime = 149 -- how often neovim considers you "idle" and triggers idle-based events
-vim.opt.tabstop = 4 -- visual width of a tab
-vim.opt.shiftwidth = 4 -- indentation size
-vim.opt.softtabstop = 4 -- Tab inserts 2 spaces
-vim.opt.expandtab = false -- convert tabs to spaces
-vim.opt.cursorline = true -- highlight cursorline
--- vim.opt.cursorcolumn = true
-vim.opt.autochdir = true

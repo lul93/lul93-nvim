@@ -1,0 +1,17 @@
+vim.o.termguicolors = true -- enable true color (24-bit)
+vim.o.autoindent = true -- copy indent from current line when starting a new one
+vim.o.smartindent = true -- smarter auto-indenting for code
+vim.opt.clipboard = "unnamedplus" -- use system clipboard
+vim.g.mapleader = " " -- set <leader> key
+vim.g.maplocalleader = " " -- set local leader key
+vim.o.number = true -- show absolute line numbers
+vim.o.relativenumber = true -- show relative line numbers
+vim.o.signcolumn = "yes" -- always show sign column (avoids layout shift)
+vim.o.timeoutlen = 499 -- time (ms) to wait for mapped key sequence
+vim.o.updatetime = 149 -- idle time (ms) before triggering events (e.g. CursorHold)
+vim.opt.tabstop = 4 -- number of spaces a tab character represents
+vim.opt.shiftwidth = 4 -- spaces used for each step of (auto)indent
+vim.opt.softtabstop = 4 -- spaces inserted when pressing <Tab>
+vim.opt.expandtab = false -- use tabs instead of spaces
+vim.opt.cursorline = true -- highlight current line
+vim.opt.autochdir = true -- change working directory to current file's directory
