@@ -19,6 +19,7 @@ with pkgs.vimPlugins; [
   twilight-nvim
   zen-mode-nvim
   dashboard-nvim
+  snacks-nvim
   hlchunk-nvim
 
   # editing
