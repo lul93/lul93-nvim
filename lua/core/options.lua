@@ -15,3 +15,4 @@ vim.opt.softtabstop = 4 -- spaces inserted when pressing <Tab>
 vim.opt.expandtab = false -- use tabs instead of spaces
 vim.opt.cursorline = true -- highlight current line
 vim.opt.autochdir = true -- change working directory to current file's directory
+vim.o.showmode = false
