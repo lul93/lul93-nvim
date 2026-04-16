@@ -2,12 +2,15 @@
   config,
   pkgs,
   topology,
+  neovim-custom,
   ...
-}: let
+}:
+let
   # use unstable packages
-  plugins = import ./plugins.nix {inherit pkgs;};
-  packages = import ./packages.nix {inherit pkgs;};
-in {
+  plugins = import ./plugins.nix { inherit pkgs; };
+  packages = import ./packages.nix { inherit pkgs; };
+in
+{
   # Use an out-of-store symlink so the Neovim config stays editable without
   # rebuilding Home Manager. This links ~/.config/nvim directly to the repo
   # directory instead of copying it into the Nix store. Convenient for active
@@ -24,6 +27,7 @@ in {
     enable = true;
     viAlias = true;
     vimAlias = true;
+    package = neovim-custom;
 
     extraPackages = packages;
 
