@@ -1,6 +1,8 @@
 return {
 	"persistence.nvim",
-	-- lazy = false,
+	beforeAll = function()
+		require("keymaps.persistence")
+	end,
 	event = "VimEnter",
 	after = function()
 		require("config.persistence").setup()
