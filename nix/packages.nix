@@ -31,15 +31,4 @@ with pkgs;
 
   # rust
   rust-analyzer
-
-  # javascript / typescript
-  nodejs
-  nodePackages.prettier
-  nodePackages.typescript-language-server
-
-  # web
-  nodePackages.vscode-langservers-extracted
-
-  # svelte
-  nodePackages.svelte-language-server
 ]
