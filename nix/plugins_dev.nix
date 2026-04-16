@@ -1,0 +1,81 @@
+{ pkgs }:
+with pkgs.vimPlugins;
+[
+  # core
+  lz-n
+  lzn-auto-require
+  rtp-nvim
+  plenary-nvim
+  neodev-nvim
+  vim-startuptime
+  bufresize-nvim
+  aerial-nvim
+
+  # colorscheme
+  catppuccin-nvim
+  doom-one-nvim
+
+  # ui
+  nvim-web-devicons
+  twilight-nvim
+  zen-mode-nvim
+  dashboard-nvim
+  snacks-nvim
+  hlchunk-nvim
+  lualine-nvim
+
+  # editing
+  which-key-nvim
+  comment-nvim
+  nvim-surround
+  nvim-autopairs
+  tabout-nvim
+  smart-splits-nvim
+  flash-nvim
+  hop-nvim
+  fzf-lua
+
+  # workspace
+  project-nvim
+  persistence-nvim
+  vim-suda
+  trouble-nvim
+
+  # files buffers terminal vcs
+  nvim-tree-lua
+  toggleterm-nvim
+  gitsigns-nvim
+
+  # lsp formatting
+  nvim-lspconfig
+  conform-nvim
+  clangd_extensions-nvim
+
+  # completion snippets
+  nvim-cmp
+  cmp-nvim-lsp
+  cmp-nvim-lsp-signature-help
+  cmp-nvim-lua
+  cmp-buffer
+  cmp-path
+  cmp-cmdline
+  luasnip
+  friendly-snippets
+
+  # treesitter
+  nvim-treesitter.withAllGrammars
+  nvim-treesitter-textobjects
+  treesitter-modules-nvim
+
+  # telescope
+  telescope-nvim
+  telescope-ui-select-nvim
+  telescope-file-browser-nvim
+
+  # ai
+  CopilotChat-nvim
+  copilot-lua
+  copilot-cmp
+  copilot-lsp
+
+]
