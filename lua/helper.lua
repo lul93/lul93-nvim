@@ -161,4 +161,12 @@ function M.close_all_toggleterms()
 	end
 end
 
+function M.get_hl_foreground(name)
+	local hl = vim.api.nvim_get_hl(0, { name = name })
+	if not hl or not hl.fg then
+		return nil
+	end
+	return string.format("#%06x", hl.fg)
+end
+
 return M
