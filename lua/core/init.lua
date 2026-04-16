@@ -2,6 +2,19 @@
 require("core.colors.highlights").setup()
 require("core.colors.mode_highlight").setup()
 
+-- blink on revealing search results!
+require("core.reveal.effects").setup({
+	scroll_mode = "center",
+	hl = "CursorLine",
+	cycles = 2,
+	persist = false,
+})
+
+require("core.reveal.lsp").setup()
+require("core.reveal.jumplist").setup()
+require("core.reveal.tags").setup()
+require("core.reveal.search").setup()
+
 -- insert when we enter a terminal
 vim.api.nvim_create_autocmd("BufEnter", {
 	callback = function(args)
