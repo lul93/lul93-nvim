@@ -1,5 +1,6 @@
-{pkgs}:
-with pkgs.vimPlugins; [
+{ pkgs }:
+with pkgs.vimPlugins;
+[
   # core
   lz-n
   lzn-auto-require
