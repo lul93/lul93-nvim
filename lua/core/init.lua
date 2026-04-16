@@ -89,6 +89,8 @@ vim.opt.shortmess:append({ I = true })
 vim.o.termguicolors = true -- enables 23 bit color
 
 -- options ············································
+vim.o.autoindent = true
+vim.o.smartindent = true
 vim.opt.clipboard = "unnamedplus" -- share system clipboard with nvim
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -104,5 +106,3 @@ vim.opt.expandtab = false -- convert tabs to spaces
 vim.opt.cursorline = true -- highlight cursorline
 -- vim.opt.cursorcolumn = true
 vim.opt.autochdir = true
-vim.o.autoindent = false
-vim.o.smartindent = false
