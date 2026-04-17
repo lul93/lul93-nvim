@@ -1,5 +1,6 @@
 local lz = require("lz.n")
 local keymap = lz.keymap("telescope.nvim")
+local map = require("keybinds").bind
 
 local U = require("Comment.utils")
 local cfg = require("Comment.config"):get()
@@ -73,8 +74,6 @@ local function toggle_adjacent_comments()
 	vim.api.nvim_buf_set_lines(buf, s, e + 1, false, lines)
 end
 
-keymap.set("n", "<leader>dc", toggle_adjacent_comments, { desc = "delete comment block" })
-
 -- VISUAL MODE: uncomment selection
 local function uncomment_visual_selection()
 	local api = require("Comment.api")
@@ -100,4 +99,5 @@ local function uncomment_visual_selection()
 	vim.fn.winrestview(view)
 end
 
-vim.keymap.set("x", "<leader>dc", uncomment_visual_selection, { desc = "uncomment selection" })
+map(keymap, "comment_toggle_block", toggle_adjacent_comments)
+map(keymap, "comment_uncomment_visual", uncomment_visual_selection)

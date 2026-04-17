@@ -25,14 +25,8 @@ end
 return {
 	"tabout.nvim",
 	enabled = enable,
-	-- lazt = false,
-	event = "VimEnter",
-	beforeAll = function()
-		-- require("keymaps.tabout")
-	end,
+	lazy = false,
 	after = function()
-		vim.schedule(function()
-			setup()
-		end)
+		setup()
 	end,
 }

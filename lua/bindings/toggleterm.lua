@@ -1,6 +1,8 @@
 local lz = require("lz.n")
 local keymap = lz.keymap("toggleterm.nvim")
 local debug = false
+local kb = require("keybinds")
+local map = kb.bind
 
 local function print_debug(...)
 	if debug then
@@ -133,47 +135,68 @@ local function close_all()
 		end
 	end
 end
-keymap.set({ "n" }, "<leader>tt", function()
+
+map(keymap, "toggleterm_toggle", function()
 	toggle()
-end, { desc = "toggle terminal" })
+end)
 
-keymap.set({ "n" }, "<leader>th", function()
+map(keymap, "toggleterm_horizontal", function()
 	toggle({ direction = "horizontal" })
-end, { desc = "toggle terminal" })
+end)
 
-keymap.set({ "n" }, "<leader>tf", function()
+map(keymap, "toggleterm_float", function()
 	toggle({ direction = "float" })
-end, { desc = "toggle terminal" })
+end)
 
-keymap.set({ "n" }, "<leader>ta", function()
+map(keymap, "toggleterm_tab", function()
 	toggle({ direction = "tab" })
-end, { desc = "toggle terminal" })
+end)
 
-keymap.set("n", "<leader>tc", function()
+map(keymap, "toggleterm_close_all", function()
 	close_all()
-end, { desc = "close all terminals" })
+end)
 
--- leave terminal insert mode with esc
-keymap.set("t", "<Esc>", [[<C-\><C-n>]])
+map(keymap, "toggleterm_exit", [[<C-\><C-n>]])
 
-for i = 1, 9 do
-	vim.keymap.set("n", "t" .. i, function()
-		require("config.toggleterm").toggle({ slot = i })
-	end)
-end
+-- slots: t1..t9
+kb.bind_generate(keymap, { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, function(i)
+	return "toggleterm_slot_" .. i,
+		{
+			lhs = "t" .. i,
+			mode = "n",
+			desc = "terminal slot " .. i,
+		},
+		function()
+			toggle({ slot = i })
+		end
+end)
 
--- slot + direction: <leader>t{1..9}{h|f|a|v}
+-- slot + direction
 local dirs = {
-	h = "horizontal",
-	v = "vertical",
-	f = "float",
-	a = "tab",
+	{ key = "h", dir = "horizontal" },
+	{ key = "v", dir = "vertical" },
+	{ key = "f", dir = "float" },
+	{ key = "a", dir = "tab" },
 }
 
+local items = {}
 for i = 1, 9 do
-	for k, dir in pairs(dirs) do
-		keymap.set("n", ("<leader>t%d%s"):format(i, k), function()
-			require("config.toggleterm").toggle({ slot = i, direction = dir })
-		end, { desc = ("terminal: %d (%s)"):format(i, dir) })
+	for _, d in ipairs(dirs) do
+		items[#items + 1] = { slot = i, key = d.key, dir = d.dir }
 	end
 end
+
+kb.bind_generate(keymap, items, function(item)
+	return ("toggleterm_slot_dir_%d_%s"):format(item.slot, item.key),
+		{
+			lhs = ("<leader>t%d%s"):format(item.slot, item.key),
+			mode = "n",
+			desc = ("terminal: %d (%s)"):format(item.slot, item.dir),
+		},
+		function()
+			toggle({
+				slot = item.slot,
+				direction = item.dir,
+			})
+		end
+end)

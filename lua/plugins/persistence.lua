@@ -66,11 +66,13 @@ end
 return {
 	"persistence.nvim",
 	enabled = enable,
+
+	event = "User PostStartup",
+
 	beforeAll = function()
-		require("keymaps.persistence")
+		require("bindings.persistence")
 	end,
-	-- event = "VimEnter",
-	lazy = false,
+
 	after = function()
 		setup()
 		setup_save()

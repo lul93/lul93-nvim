@@ -30,9 +30,8 @@ return {
 	"flash.nvim",
 	enabled = enable,
 	beforeAll = function()
-		require("keymaps.flash")
+		require("bindings.flash")
 	end,
-	keys = { "s" },
 	after = function()
 		setup()
 	end,

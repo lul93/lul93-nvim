@@ -1,5 +1,6 @@
 local lz = require("lz.n")
 local keymap = lz.keymap("nvim-tree.lua")
+local map = require("keybinds").bind
 local helper = require("helper")
 
 local function toggle()
@@ -15,11 +16,10 @@ local function close()
 	vim.cmd("NvimTreeClose")
 end
 
--- local neotree = require("config.neo-tree")
-keymap.set("n", "<leader>et", function()
+map(keymap, "nvim_tree_toggle", function()
 	toggle()
-end, { desc = "toggle explorer" })
+end)
 
-keymap.set("n", "<leader>ec", function()
+map(keymap, "nvim_tree_close", function()
 	close()
-end, { desc = "close explorer" })
+end)

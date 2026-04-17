@@ -1,9 +1,11 @@
 local lz = require("lz.n")
 local keymap = lz.keymap("trouble.nvim")
+local map = require("keybinds").bind
+
 local helper = require("helper")
 local trouble = require("trouble")
 
-keymap.set("n", "<leader>tdw", function()
+map(keymap, "trouble_workspace", function()
 	vim.schedule(function()
 		if trouble.is_open() then
 			helper.goto_last_editor_window()
@@ -13,30 +15,26 @@ keymap.set("n", "<leader>tdw", function()
 			trouble.toggle("diagnostics")
 		end
 	end)
-end, { desc = "toggle workspace diagnostics" })
+end)
 
-keymap.set(
-	"n",
-	"<leader>tdb",
-	"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-	{ desc = "toggle buffer diagnostics" }
-)
-keymap.set("n", "<leader>tq", "<cmd>Trouble qflist toggle<cr>", { desc = "toggle quickfix" })
-keymap.set("n", "<leader>tl", "<cmd>Trouble loclist toggle<cr>", { desc = "toggle local list" })
-keymap.set("n", "<leader>tr", function()
+map(keymap, "trouble_buffer", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>")
+map(keymap, "trouble_qflist", "<cmd>Trouble qflist toggle<cr>")
+map(keymap, "trouble_loclist", "<cmd>Trouble loclist toggle<cr>")
+
+map(keymap, "trouble_references", function()
 	require("trouble").open({
 		mode = "lsp_references",
 		auto_refresh = false,
 		focus = true,
 	})
-end, { desc = "toggle lsp references" })
+end)
 
-vim.keymap.set("n", "]x", function()
+map(keymap, "trouble_next", function()
 	vim.diagnostic.goto_next({ float = false })
 	vim.cmd("Trouble diagnostics focus")
 end)
 
-vim.keymap.set("n", "[x", function()
+map(keymap, "trouble_prev", function()
 	vim.diagnostic.goto_prev({ float = false })
 	vim.cmd("Trouble diagnostics focus")
 end)

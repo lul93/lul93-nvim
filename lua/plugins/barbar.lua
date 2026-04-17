@@ -50,12 +50,9 @@ return {
 	"barbar.nvim",
 	enabled = enable,
 	beforeAll = function()
-		require("keymaps.barbar")
+		require("bindings.barbar")
 	end,
-	event = {
-		"BufReadPre",
-		"BufNewFile",
-	},
+	event = { "BufReadPost", "BufNewFile" },
 	after = function()
 		setup()
 	end,

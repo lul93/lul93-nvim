@@ -3,11 +3,7 @@ local enable = true
 return {
 	"nvim-surround",
 	enabled = enable,
-	keys = {
-		"ys",
-		"ds",
-		"cs",
-	},
+	event = "User PostStartup",
 	after = function()
 		require("nvim-surround").setup()
 	end,

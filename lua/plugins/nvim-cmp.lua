@@ -118,7 +118,6 @@ return {
 	enabled = enable,
 	event = "InsertEnter",
 	after = function()
-		-- local rtp = require("rtp_nvim")
 		local cmp_source_list = {
 			"cmp-nvim-lsp",
 			"cmp-buffer",

@@ -1,10 +1,11 @@
 local lz = require("lz.n")
 local keymap = lz.keymap("flash.nvim")
+local map = require("keybinds").bind
 
-keymap.set({ "n", "x", "o" }, "s", function()
+map(keymap, "flash_jump", function()
 	require("flash").jump()
 end)
 
-keymap.set("o", "r", function()
+map(keymap, "flash_remote", function()
 	require("flash").remote()
 end)

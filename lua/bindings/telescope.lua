@@ -1,42 +1,45 @@
 local lz = require("lz.n")
 local keymap = lz.keymap("telescope.nvim")
+local map = require("keybinds").bind
 
-keymap.set("n", "<leader>sf", function()
-	require("telescope.builtin").find_files()
-end, { desc = "files" })
+local builtin = require("telescope.builtin")
 
-keymap.set("n", "<leader>sb", function()
-	require("telescope.builtin").buffers()
-end, { desc = "open buffers" })
+map(keymap, "telescope_find_files", function()
+	builtin.find_files()
+end)
 
-keymap.set("n", "<leader>sr", function()
-	require("telescope.builtin").oldfiles()
-end, { desc = "recent files" })
+map(keymap, "telescope_buffers", function()
+	builtin.buffers()
+end)
 
-keymap.set("n", "<leader>sG", function()
-	require("telescope.builtin").git_files()
-end, { desc = "git files" })
+map(keymap, "telescope_oldfiles", function()
+	builtin.oldfiles()
+end)
 
-keymap.set("n", "<leader>sm", function()
-	require("telescope.builtin").marks()
-end, { desc = "marks" })
+map(keymap, "telescope_git_files", function()
+	builtin.git_files()
+end)
 
-keymap.set("n", "<leader>sj", function()
-	require("telescope.builtin").jumplist()
-end, { desc = "jumplist" })
+map(keymap, "telescope_marks", function()
+	builtin.marks()
+end)
 
-keymap.set("n", "<leader>sg", function()
-	require("telescope.builtin").live_grep()
-end, { desc = "grep project" })
+map(keymap, "telescope_jumplist", function()
+	builtin.jumplist()
+end)
 
-keymap.set("n", "<leader>sw", function()
-	require("telescope.builtin").grep_string()
-end, { desc = "word under cursor" })
+map(keymap, "telescope_live_grep", function()
+	builtin.live_grep()
+end)
 
--- last used picker
-keymap.set("n", "<leader>sp", function()
-	require("telescope.builtin").resume()
-end, { desc = "resume picker" })
+map(keymap, "telescope_grep_string", function()
+	builtin.grep_string()
+end)
+
+map(keymap, "telescope_resume", function()
+	builtin.resume()
+end)
+
 -- testing symbol index
 -- local symbols = require("config.telescope.pickers.symbol_index")
 --

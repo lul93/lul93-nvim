@@ -1,9 +1,10 @@
 local lz = require("lz.n")
 local keymap = lz.keymap("conform.nvim")
+local map = require("keybinds").bind
 
-keymap.set({ "n", "v" }, "<leader>f", function()
+map(keymap, "conform_format", function()
 	require("conform").format({
 		async = true,
 		lsp_fallback = true,
 	})
-end, { desc = "format" })
+end)

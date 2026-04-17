@@ -33,16 +33,13 @@ local function setup()
 end
 
 return {
-	"nvim-treesitter-textojects",
+	"nvim-treesitter-textobjects",
 	enabled = enable,
+
 	beforeAll = function()
-		require("keymaps.nvim-treesitter-textobjects")
+		require("bindings.nvim-treesitter-textobjects")
 	end,
-	keys = {
-		"]",
-		"a",
-		"i",
-	},
+
 	after = function()
 		setup()
 	end,

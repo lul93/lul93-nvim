@@ -30,9 +30,9 @@ return {
 	"conform.nvim",
 	enabled = enable,
 	beforeAll = function()
-		require("keymaps.conform")
+		require("bindings.conform")
 	end,
-	event = { "BufWritePre" },
+	event = { "BufReadPre", "BufNewFile" },
 	after = function()
 		setup()
 	end,

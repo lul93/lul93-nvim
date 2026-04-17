@@ -49,7 +49,7 @@ end
 return {
 	"lualine.nvim",
 	enabled = enable,
-	event = { "User PostStartup" },
+	lazy = false,
 	after = function()
 		setup()
 	end,

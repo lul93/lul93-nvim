@@ -1,4 +1,5 @@
 local enable = true
+
 local function setup()
 	require("project").setup({
 		lsp = {
@@ -16,9 +17,9 @@ end
 return {
 	"project.nvim",
 	enabled = enable,
-	-- lazy = false,
-	-- event = { "BufReadPre", "BufNewFile" },
-	event = "VimEnter",
+
+	event = { "BufReadPre", "BufNewFile" },
+
 	after = function()
 		setup()
 	end,

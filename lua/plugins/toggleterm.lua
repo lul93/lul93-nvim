@@ -56,16 +56,8 @@ return {
 	"toggleterm.nvim",
 	enabled = enable,
 	beforeAll = function()
-		require("keymaps.toggleterm")
+		require("bindings.toggleterm")
 	end,
-	keys = {
-		"<leader>tt",
-		"<leader>tf",
-		"<leader>th",
-		"<leader>ta",
-		"<leader>ct",
-	},
-
 	after = function()
 		setup()
 	end,

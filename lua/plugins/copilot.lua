@@ -6,7 +6,7 @@ return {
 	beforeAll = function()
 		-- require("keymaps.copilot")
 	end,
-	event = { "InsertEnter" },
+	event = "InsertEnter",
 	after = function()
 		-- copilot as language server ?
 		-- require("copilot.lsp").setup()

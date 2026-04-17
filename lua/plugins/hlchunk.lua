@@ -30,5 +30,7 @@ return {
 	"hlchunk.nvim",
 	enabled = enable,
 	event = { "BufReadPre", "BufNewFile" },
-	after = setup,
+	after = function()
+		setup()
+	end,
 }

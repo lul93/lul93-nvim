@@ -3,11 +3,10 @@ local enable = true
 return {
 	"telescope.nvim",
 	enabled = enable,
-	event = "VimEnter",
+	event = "User PostStartup",
 	beforeAll = function()
-		require("keymaps.telescope")
+		require("bindings.telescope")
 	end,
-
 	after = function()
 		vim.schedule(function()
 			require("config.telescope").setup()

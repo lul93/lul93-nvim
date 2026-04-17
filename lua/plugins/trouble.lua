@@ -12,15 +12,8 @@ return {
 	"trouble.nvim",
 	enabled = enable,
 	cmd = { "Trouble", "TroubleToggle" },
-	keys = {
-		"<leader>tq",
-		"<leader>tl",
-		"<leader>tr",
-		"<leader>tdw",
-		"<leader>tdb",
-	},
 	beforeAll = function()
-		require("keymaps.trouble")
+		require("bindings.trouble")
 	end,
 	after = function()
 		setup()

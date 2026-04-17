@@ -110,9 +110,8 @@ end
 return {
 	"nvim-tree.lua",
 	enabled = enable,
-	event = "VimEnter",
 	beforeAll = function()
-		require("keymaps.nvim-tree")
+		require("bindings.nvim-tree")
 	end,
 	after = function()
 		setup()

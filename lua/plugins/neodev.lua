@@ -3,8 +3,8 @@ local enable = true
 return {
 	"neodev.nvim",
 	enabled = enable,
-	event = "User PostStartup",
-	after = {
-		require("neodev").setup({}),
-	},
+	event = { "BufReadPre", "BufNewFile" },
+	after = function()
+		require("neodev").setup({})
+	end,
 }

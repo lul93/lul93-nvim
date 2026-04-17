@@ -3,9 +3,8 @@ return {
 	"CopilotChat.nvim",
 	enabled = enable,
 	beforeAll = function()
-		require("keymaps.copilotchat")
+		require("bindings.copilotchat")
 	end,
-	event = { "User PostStartup" },
 	after = function()
 		require("config.copilotchat").setup()
 	end,

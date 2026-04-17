@@ -3,9 +3,8 @@ local enable = true
 return {
 	"zen-mode.nvim",
 	enabled = enable,
-	keys = { "<leader>tz" },
-	before_all = function()
-		require("keymaps.zen-mode")
+	beforeAll = function()
+		require("bindings.zen_mode")
 	end,
 	after = function()
 		require("zen-mode").setup({
