@@ -136,6 +136,50 @@ local function close_all()
 	end
 end
 
+local function open_buffer_dir()
+	local state = require("state")
+
+	-- count terminals
+	local count = 0
+	for _ in pairs(state.terminals) do
+		count = count + 1
+	end
+
+	local slot
+
+	if count == 0 then
+		slot = 1
+	elseif count == 1 then
+		for k in pairs(state.terminals) do
+			slot = k
+		end
+	else
+		local choice = vim.fn.input("terminal slot: ")
+		local num = tonumber(choice)
+
+		if not num or not state.terminals[num] then
+			print("invalid slot")
+			return
+		end
+
+		slot = num
+	end
+
+	local dir = vim.fn.expand("%:p:h")
+	if dir == "" then
+		dir = vim.loop.cwd()
+	end
+	print(dir)
+	print(slot)
+
+	-- toggle({ slot = slot })
+
+	vim.cmd(string.format("%dTermExec cmd='' dir=%%:p:h go_back=0", slot))
+end
+
+map(keymap, "toggleterm_open_buffer_dir", function()
+	open_buffer_dir()
+end)
 map(keymap, "toggleterm_toggle", function()
 	toggle()
 end)

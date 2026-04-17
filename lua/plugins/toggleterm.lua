@@ -31,10 +31,24 @@ local function setup()
 			end
 		end,
 		on_open = function(t)
-			print_debug("terminal opened (count=" .. t.count .. ", dir=" .. t.direction .. ")")
-			t.tab = vim.api.nvim_win_get_tabpage(t.window)
-			require("state").last_terminal = t
-			print_debug("last_terminal updated to count=" .. t.count)
+			local state = require("state")
+
+			-- assign slot if missing
+			if not t.count then
+				local max = 0
+				for k in pairs(state.terminals) do
+					if k > max then
+						max = k
+					end
+				end
+
+				t.count = max + 1
+			end
+
+			state.terminals[t.count] = t
+			state.last_terminal = t
+
+			print_debug("terminal opened (count=" .. tostring(t.count) .. ", dir=" .. tostring(t.direction) .. ")")
 		end,
 		on_close = function(t)
 			print_debug("terminal closed (count=" .. t.count .. ")")
