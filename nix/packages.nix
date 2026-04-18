@@ -1,34 +1,33 @@
 { pkgs }:
 with pkgs;
 [
-  # core
+  # core tooling
   git
   ripgrep
   fd
 
-  # shell
+  # runtimes
+  nodejs_24
+  go
+
+  # formatters
   shfmt
-  bash-language-server
-
-  # nix
   alejandra
-  nil
   nixfmt
-
-  # lua
   stylua
-  lua-language-server
-
-  # python
   ruff
-  pyright
+  nodePackages.prettier
 
-  # c / c++
+  # language servers
+  bash-language-server
+  nil
+  lua-language-server
+  pyright
+  mesonlsp
+  rust-analyzer
+
+  # build / toolchains
   clang-tools
   meson
   ninja
-  mesonlsp
-
-  # rust
-  rust-analyzer
 ]
