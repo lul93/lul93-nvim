@@ -269,6 +269,11 @@ M.groups = {
 		tab = { lhs = "<leader>ta", mode = "n", desc = "toggle tabbed terminal" },
 		close_all = { lhs = "<leader>tc", mode = "n", desc = "close all terminals" },
 		exit = { lhs = "<Esc>", mode = "t" },
+		open_buffer_dir = {
+			lhs = "<leader>td",
+			mode = "n",
+			desc = "open a terminal in the current buffer's directory",
+		},
 	},
 
 	trouble = {
